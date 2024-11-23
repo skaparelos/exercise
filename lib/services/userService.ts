@@ -1,6 +1,6 @@
 import pool from '@/lib/db';
 import { User } from '@/types/users';
-import { getAllUsersQuery } from '@/lib/queries/users';
+import { createUserQuery, getAllUsersQuery } from '@/lib/queries/users';
 
 export async function getAllUsers(): Promise<User[]> {
   try {
@@ -11,3 +11,13 @@ export async function getAllUsers(): Promise<User[]> {
     throw error;
   }
 }
+
+export async function createUser(user: User): Promise<User> {
+  try {
+    const { rows } = await pool.query<User>(createUserQuery, [user.email, user.name]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+} 

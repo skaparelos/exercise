@@ -1,7 +1,8 @@
 import pool from '@/lib/db';
 import {
+  getTeamQuery,
   getTeamsQuery,
-  getTeamsWithMembersQuery,
+  getAllTeamsWithMembersQuery,
 } from '@/lib/queries/teams';
 import { Team } from '@/types/teams';
 
@@ -16,9 +17,19 @@ export async function getAllTeams(): Promise<Team[]> {
   }
 }
 
+export async function getTeam(id: number): Promise<Team | null> {
+  try {
+    const res = await pool.query(getTeamQuery, [id]);
+    return res.rows[0] || null;
+  } catch (error) {
+    console.error('Error fetching team:', error);
+    throw new Error('Failed to fetch team');
+  }
+}
+
 export async function getTeamsWithMembers(): Promise<Team[]> {
   try {
-    const res = await pool.query(getTeamsWithMembersQuery);
+    const res = await pool.query(getAllTeamsWithMembersQuery);
     const rows = res.rows;
 
     // Process the rows to build teams and their members

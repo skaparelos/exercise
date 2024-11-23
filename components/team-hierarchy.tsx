@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, Users } from 'lucide-react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Team } from '@/types/teams';
+import Link from 'next/link';
 
 interface TeamComponentProps {
   team: Team;
@@ -30,13 +31,14 @@ export const TeamComponent: React.FC<TeamComponentProps> = ({ team, depth = 0 })
             <ChevronRight className="h-4 w-4" />
           )}
         </Button>
-        <Users className="h-5 w-5 text-blue-500" />
-        <span className="font-semibold">{team.name}</span>
-        <span className="text-sm text-gray-500">({team.members?.length || 0} members)</span>
+        <Link href={`/teams/${team.id}`}>
+          <span className="font-semibold hover:text-blue-500">{team.name}</span>
+        </Link>
+        <span className="text-sm text-gray-500">({team.full_path})</span>
       </div>
       {isExpanded && (
         <>
-          <ul className="ml-6 mt-2 space-y-1">
+          <ul className="ml-8 mt-2 space-y-1">
             {team.members?.map((member) => (
               <li key={member.id} className="text-sm text-gray-700">
                 {member.name} ({member.role})
@@ -50,4 +52,4 @@ export const TeamComponent: React.FC<TeamComponentProps> = ({ team, depth = 0 })
       )}
     </div>
   );
-}; 
+};

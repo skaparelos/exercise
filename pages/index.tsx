@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import { Team } from '@/types/teams';
-import { TeamComponent } from '@/components/TeamComponent';
+import { TeamComponent } from '@/components/team-hierarchy';
 import { getTeamsWithMembers } from '@/lib/services/teamService';
 
 interface HomePageProps {
@@ -24,9 +24,6 @@ export default function Home({ teams }: HomePageProps) {
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const rootTeams = await getTeamsWithMembers();
-
-    console.log("rootTeams=");
-    console.dir(rootTeams, { depth: null });
 
     return {
       props: {
