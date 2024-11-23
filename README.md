@@ -11,7 +11,7 @@ Using: Typescript, NextJS, Docker, Postgres, pg, React, Tailwind, shadcn/ui comp
 5. On another terminal run `npm run dev` to run the application
 6. Visit `http://localhost:3000`
 7. You should be able to see the homepage
-8. Click on one of the team titles to visit the edit page
+8. Click on one of the team titles to visit the team edit page
 
 If you want to destroy the db run and restart running the seed data run: `$ npm run db:down` and then `$ npm run db:up`
 

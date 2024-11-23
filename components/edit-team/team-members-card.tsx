@@ -20,10 +20,12 @@ export function TeamMembersCard({ members, setFormData }: TeamMembersCardProps) 
     name: string
     email: string
     role: TeamRole
+    is_active: boolean
   }>({
     name: "",
     email: "",
-    role: "MEMBER"
+    role: "MEMBER",
+    is_active: true
   })
 
   const handleAddMember = async () => {
@@ -56,21 +58,21 @@ export function TeamMembersCard({ members, setFormData }: TeamMembersCardProps) 
           description: "Failed to add team member",
           variant: "destructive"
         })
-        setNewMember({ name: "", email: "", role: "MEMBER" })
+        setNewMember({ name: "", email: "", role: "MEMBER", is_active: true })
         setIsDialogOpen(false)
         return
       }
 
       const { data: [user] } = await userResponse.json()
 
-      // Add user to team members
+      // Add user to team members with is_active set to true
       setFormData(prev => ({
         ...prev,
-        members: [...prev.members, { ...user, role: newMember.role }]
+        members: [...prev.members, { ...user, role: newMember.role, is_active: true }]
       }))
 
       setIsDialogOpen(false)
-      setNewMember({ name: "", email: "", role: "MEMBER" })
+      setNewMember({ name: "", email: "", role: "MEMBER", is_active: true })
 
       toast({
         title: "Success",
@@ -119,7 +121,7 @@ export function TeamMembersCard({ members, setFormData }: TeamMembersCardProps) 
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id={`active-${member.email}`}
-                    checked={member.is_active}
+                    checked={member.is_active ?? true}
                     onCheckedChange={(checked) => {
                       setFormData(prev => ({
                         ...prev,
