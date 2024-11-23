@@ -4,7 +4,7 @@ Using: Typescript, NextJS, Docker, Postgres, pg, React, Tailwind, shadcn/ui comp
 # Setup
 
 ## How to run
-1. Copy `.env.example` to `.env`
+1. Create `.env` file and copy contetns of `.env.example`
 2. Run `npm i`
 3. Have docker running as an app in your pc (the postgres database is dockerized)
 4. On one terminal run `npm run db:up` to run dockerized postgres
