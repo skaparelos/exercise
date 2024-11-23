@@ -1,19 +1,22 @@
+import { User } from "@/types/users";
+
 export interface Team {
-  id: string;
+  id: number;
   name: string;
-  department: string | null;
-  parent_id: string | null;
-  created_at: Date;
+  department?: string | null;
+  parent_id: number | null;
+  created_at?: Date;
   metadata: Record<string, any>;
-  team_members?: TeamMember[];
+  members?: TeamMember[];
+  children?: Team[];
+  full_path?: string;
+}
+
+export interface TeamMember extends User {
+  role: TeamRole;
+  is_active: boolean;
 }
 
 export type TeamRole = 'ADMIN' | 'MEMBER';
 
-export interface TeamMember {
-  member_id: string;
-  team_id: string;
-  role: TeamRole;
-  is_active: boolean;
-  created_at: Date;
-} 
+
