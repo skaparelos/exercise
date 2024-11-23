@@ -1,5 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import pool from '@/lib/db'
+import {
+  updateTeamQuery,
+  deleteTeamMembersQuery,
+  insertTeamMembersQuery,
+  getUpdatedTeamQuery
+} from '@/lib/queries/teams'
 
 
 export default async function handler(
@@ -18,14 +24,6 @@ export default async function handler(
     await pool.query('BEGIN')
 
     // Update team
-    const updateTeamQuery = `
-      UPDATE teams 
-      SET name = $1, 
-          department = $2, 
-          parent_id = $3
-      WHERE id = $4
-      RETURNING *
-    `
     const teamResult = await pool.query(updateTeamQuery, [
       name,
       department,
@@ -38,16 +36,14 @@ export default async function handler(
     }
 
     // Delete existing team members
-    await pool.query(
-      'DELETE FROM team_members WHERE team_id = $1',
-      [teamId]
-    )
+    await pool.query(deleteTeamMembersQuery, [teamId])
 
     // Insert new team members
     if (members && members.length > 0) {
-      const memberValues = members.map((member: any, index: number) =>
-        `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`
-      ).join(', ')
+      // Validate member data
+      if (!members.every(member => member && member.id)) {
+        throw new Error('Invalid member data: All members must have an id')
+      }
 
       const memberParams = members.flatMap((member: any) => [
         member.id,
@@ -55,34 +51,10 @@ export default async function handler(
         member.role
       ])
 
-      const insertMembersQuery = `
-        INSERT INTO team_members (member_id, team_id, role)
-        VALUES ${memberValues}
-      `
-      await pool.query(insertMembersQuery, memberParams)
+      await pool.query(insertTeamMembersQuery(members.length), memberParams)
     }
 
     // Get updated team with members
-    const getUpdatedTeamQuery = `
-      SELECT 
-        t.*,
-        json_agg(
-          json_build_object(
-            'member_id', tm.member_id,
-            'role', tm.role,
-            'user', json_build_object(
-              'id', u.id,
-              'name', u.name,
-              'email', u.email
-            )
-          )
-        ) as members
-      FROM teams t
-      LEFT JOIN team_members tm ON t.id = tm.team_id
-      LEFT JOIN users u ON tm.member_id = u.id
-      WHERE t.id = $1
-      GROUP BY t.id
-    `
     const updatedTeam = await pool.query(getUpdatedTeamQuery, [teamId])
 
     // Commit transaction
