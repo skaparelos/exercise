@@ -12,6 +12,7 @@ Using: Typescript, NextJS, Docker, Postgres, pg, React, Tailwind, shadcn/ui comp
 6. Visit `http://localhost:3000`
 7. You should be able to see the homepage
 8. Click on one of the team titles to visit the team edit page
+9. In the edit page, if you want to change the parent make sure you don't create cycles. Cycle example: engineering is under backend and backend is under engineering
 
 If you want to destroy the db run and restart running the seed data run: `$ npm run db:down` and then `$ npm run db:up`
 
