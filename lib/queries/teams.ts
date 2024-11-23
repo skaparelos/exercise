@@ -67,10 +67,10 @@ export const deleteTeamMembersQuery = `
 `;
 
 export const insertTeamMembersQuery = (memberCount: number) => `
-  INSERT INTO team_members (member_id, team_id, role)
+  INSERT INTO team_members (member_id, team_id, role, is_active)
   VALUES ${Array(memberCount)
     .fill(null)
-    .map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`)
+    .map((_, i) => `($${i * 4 + 1}, $${i * 4 + 2}, $${i * 4 + 3}, $${i * 4 + 4})`)
     .join(', ')}
 `;
 

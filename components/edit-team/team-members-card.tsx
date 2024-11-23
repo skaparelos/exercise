@@ -5,6 +5,7 @@ import { Plus } from "lucide-react"
 import { TeamMember, TeamRole } from "@/types/teams"
 import { AddMemberDialog } from "./add-member-dialog"
 import { useToast } from "@/hooks/use-toast"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface TeamMembersCardProps {
@@ -115,6 +116,26 @@ export function TeamMembersCard({ members, setFormData }: TeamMembersCardProps) 
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`active-${member.email}`}
+                    checked={member.is_active}
+                    onCheckedChange={(checked) => {
+                      setFormData(prev => ({
+                        ...prev,
+                        members: prev.members.map((m: TeamMember) =>
+                          m.email === member.email ? { ...m, is_active: checked } : m
+                        )
+                      }))
+                    }}
+                  />
+                  <label
+                    htmlFor={`active-${member.email}`}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Active
+                  </label>
+                </div>
                 <Select
                   defaultValue={member.role}
                   onValueChange={(value) => {

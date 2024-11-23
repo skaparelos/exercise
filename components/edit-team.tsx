@@ -21,7 +21,7 @@ export default function EditTeam({ team, potentialParentTeams }: EditTeamProps) 
     name: team.name,
     department: team.department || '',
     members: team.members || [],
-    parent_id: team.parent_id
+    parent_id: team.parent_id,
   })
   const [isSaving, setIsSaving] = useState(false)
 

@@ -48,7 +48,8 @@ export default async function handler(
       const memberParams = members.flatMap((member: any) => [
         member.id,
         teamId,
-        member.role
+        member.role,
+        member.is_active ?? true  // Default to true if not specified
       ])
 
       await pool.query(insertTeamMembersQuery(members.length), memberParams)
