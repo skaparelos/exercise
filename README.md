@@ -44,7 +44,7 @@ You should be able see to all of the asked functionality:
 
 ## Architecture
 * `schema.sql` contains the SQL schema
-* `seed.sql` contains is seed file for the database
+* `seed.sql` contains the seed file for the database
 * `/types/` contains type definitions for teams and users
 * `/lib/queries/` contains raw SQL queries for teams and users
 * `/lib/services/` contains service functions for executing the SQL queries
