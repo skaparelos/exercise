@@ -4,7 +4,7 @@ Using: Typescript, NextJS, Docker, Postgres, pg, React, Tailwind, shadcn/ui comp
 # Setup
 
 ## How to run
-1. Create `.env` file and copy contetns of `.env.example`
+1. Create `.env` file and copy contents of `.env.example`
 2. Run `npm i`
 3. Have docker running as an app in your pc (the postgres database is dockerized)
 4. On one terminal run `npm run db:up` to run dockerized postgres
@@ -18,7 +18,7 @@ If you want to destroy the db run and restart running the seed data run: `$ npm 
 
 A seed file is run and the db is prefilled with data.
 
-You should be able to all of the asked functionality:
+You should be able see to all of the asked functionality:
 1. Homepage Features
    - View teams in a hierarchical tree structure
    - See team members and their roles
